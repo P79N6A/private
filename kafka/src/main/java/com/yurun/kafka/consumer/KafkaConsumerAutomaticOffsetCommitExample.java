@@ -13,7 +13,7 @@ import org.apache.kafka.common.errors.WakeupException;
  *
  * Kafka Consumer Example
  */
-public class KafkaConsumerExample {
+public class KafkaConsumerAutomaticOffsetCommitExample {
 
   public static void main(String[] args) {
     Properties properties = new Properties();
