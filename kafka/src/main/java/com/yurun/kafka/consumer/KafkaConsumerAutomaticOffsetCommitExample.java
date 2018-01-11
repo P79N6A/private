@@ -7,6 +7,8 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.errors.WakeupException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by yurun on 18/1/10.
@@ -14,6 +16,9 @@ import org.apache.kafka.common.errors.WakeupException;
  * Kafka Consumer Example
  */
 public class KafkaConsumerAutomaticOffsetCommitExample {
+
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(KafkaConsumerAutomaticOffsetCommitExample.class);
 
   public static void main(String[] args) {
     Properties properties = new Properties();
@@ -41,7 +46,7 @@ public class KafkaConsumerAutomaticOffsetCommitExample {
       }
 
       for (ConsumerRecord<String, String> record : records) {
-        System.out.printf("offset = %d, key = %s, value = %s%n",
+        LOGGER.info("offset = {}, key = {}, value = {}",
             record.offset(), record.key(), record.value());
       }
     }
