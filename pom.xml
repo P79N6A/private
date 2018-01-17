@@ -10,6 +10,8 @@
   <version>0.1-SNAPSHOT</version>
   <modules>
     <module>kafka</module>
+    <module>spark</module>
+    <module>util</module>
   </modules>
 
   <properties>
@@ -19,6 +21,7 @@
     <commons-lang>2.6</commons-lang>
     <commons-collections>3.2.1</commons-collections>
     <kafka.version>1.0.0</kafka.version>
+    <spark.version>2.2.1</spark.version>
   </properties>
 
   <dependencyManagement>
@@ -60,6 +63,25 @@
         <groupId>org.apache.kafka</groupId>
         <artifactId>kafka-clients</artifactId>
         <version>${kafka.version}</version>
+      </dependency>
+
+      <!-- spark -->
+      <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-core_2.11</artifactId>
+        <version>${spark.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-streaming_2.11</artifactId>
+        <version>${spark.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
+        <version>${spark.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
