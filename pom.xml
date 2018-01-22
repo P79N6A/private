@@ -12,6 +12,7 @@
     <module>kafka</module>
     <module>spark</module>
     <module>util</module>
+    <module>common</module>
   </modules>
 
   <properties>
