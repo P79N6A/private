@@ -19,21 +19,22 @@ public class KafkaProducerExample {
   private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProducerExample.class);
 
   public static void main(String[] args) {
+    String kafkaServers = "d013004044.hadoop.dip.weibo.com:9092";
+
+    String topic = "yurun_1";
+
     Properties properties = new Properties();
 
     properties
-        .put("bootstrap.servers", "d013057201.dip.weibo.com:9092,d013057202.dip.weibo.com:9092");
+        .put("bootstrap.servers", kafkaServers);
     properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
     properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
     Producer<String, String> producer = new KafkaProducer<String, String>(properties);
 
-    String topic = "test";
-
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    int count = 0;
-    while (count++ < 1000) {
+    while (true) {
       String value = sdf.format(new Date());
       producer.send(
           new ProducerRecord<String, String>(topic, value));
