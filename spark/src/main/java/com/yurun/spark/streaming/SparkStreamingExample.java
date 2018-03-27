@@ -7,6 +7,8 @@ import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.JavaDStream;
 import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka.KafkaUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import scala.Tuple2;
 
 /**
@@ -16,11 +18,9 @@ import scala.Tuple2;
  */
 public class SparkStreamingExample {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(SparkStreamingExample.class);
+
   public static void main(String[] args) throws InterruptedException {
-    String master = "local[10]";
-
-    String appName = "example";
-
     long batch = 1;
 
     String zkQuorums = "d013004044.hadoop.dip.weibo.com:2181/kafka_intra";
@@ -31,9 +31,6 @@ public class SparkStreamingExample {
     int threads = 1;
 
     SparkConf conf = new SparkConf();
-
-    conf.setMaster(master);
-    conf.setAppName(appName);
 
     JavaSparkContext sc = new JavaSparkContext(conf);
 
