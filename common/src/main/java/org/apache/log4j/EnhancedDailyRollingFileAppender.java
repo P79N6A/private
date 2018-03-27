@@ -9,9 +9,9 @@ import org.apache.log4j.helpers.LogLog;
 /**
  * Created by yurun on 18/3/26.
  *
- * Used by Spark Streaming
+ * Enhanced DailyRollingFileAppender: support maxBackupIndex
  */
-public class StreamingDailyRollingFileAppender extends DailyRollingFileAppender {
+public class EnhancedDailyRollingFileAppender extends DailyRollingFileAppender {
 
   protected int maxBackupIndex = 1;
 
