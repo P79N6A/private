@@ -4,19 +4,41 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 import org.apache.log4j.helpers.LogLog;
+import org.apache.spark.SparkEnv;
 
 /**
  * Created by yurun on 18/3/26.
  *
  * Enhanced DailyRollingFileAppender: support maxBackupIndex
  */
-public class EnhancedDailyRollingFileAppender extends DailyRollingFileAppender {
+public class StreamingDailyRollingFileAppender extends DailyRollingFileAppender {
 
   protected int maxBackupIndex = 1;
 
   public void setMaxBackupIndex(int maxBackups) {
     this.maxBackupIndex = maxBackups;
+  }
+
+  @Override
+  public void setFile(String file) {
+    super.setFile(file);
+  }
+
+  @Override
+  public void activateOptions() {
+    super.activateOptions();
+
+    SparkEnv sparkEnv = SparkEnv.get();
+
+    if (Objects.nonNull(sparkEnv)) {
+      String appName = sparkEnv.conf().get("spark.app.name");
+
+      System.out.println(appName);
+    } else {
+      System.out.println("spark env is null");
+    }
   }
 
   @Override
