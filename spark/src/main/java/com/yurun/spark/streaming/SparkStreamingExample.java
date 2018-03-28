@@ -43,7 +43,14 @@ public class SparkStreamingExample {
 
     stream.foreachRDD(rdd -> rdd.foreachPartition(iter -> {
       while (iter.hasNext()) {
-        System.out.println(iter.next());
+        String value = iter.next();
+
+        LOGGER.debug("Debug {}",value);
+        LOGGER.info("Info {}",value);
+        LOGGER.warn("Warn {}",value);
+        LOGGER.error("Error {}",value);
+
+        System.out.println(value);
       }
     }));
 

@@ -20,6 +20,11 @@ public class EnhancedDailyRollingFileAppender extends DailyRollingFileAppender {
   }
 
   @Override
+  public boolean isAsSevereAsThreshold(Priority priority) {
+    return (threshold == null) || threshold.equals(priority);
+  }
+
+  @Override
   void rollOver() throws IOException {
     super.rollOver();
 
