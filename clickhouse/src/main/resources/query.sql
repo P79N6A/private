@@ -1,1 +1,1 @@
-show tables
+SELECT * FROM system.parts WHERE active

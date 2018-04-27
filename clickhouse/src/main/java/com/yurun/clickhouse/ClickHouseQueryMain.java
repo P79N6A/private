@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Objects;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -56,7 +57,9 @@ public class ClickHouseQueryMain {
         String[] row = new String[columns];
 
         for (int index = 1; index <= columns; index++) {
-          row[index - 1] = rs.getObject(index).toString();
+          Object result = rs.getObject(index);
+
+          row[index - 1] = Objects.nonNull(result) ? result.toString() : "NULL";
         }
 
         LOGGER.info(StringUtils.join(row, ", "));
