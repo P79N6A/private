@@ -1,1 +1,1 @@
-SELECT * FROM system.parts WHERE active
+select * from ontime2_all

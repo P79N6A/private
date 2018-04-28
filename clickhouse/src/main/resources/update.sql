@@ -1,5 +1,1 @@
-CREATE TABLE `ontime` (
-  `Year` Int32,
-  `FlightDate` Date,
-  `TailNum` String
-) ENGINE = MergeTree(FlightDate, (Year, FlightDate), 8192)
+CREATE TABLE ontime2_all AS ontime2 ENGINE = Distributed(logs, default, ontime2, rand())

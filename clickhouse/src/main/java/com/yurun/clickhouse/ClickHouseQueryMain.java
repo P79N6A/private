@@ -12,9 +12,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Created by yurun on 18/4/26.
- */
+
 public class ClickHouseQueryMain {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ClickHouseQueryMain.class);
@@ -29,7 +27,7 @@ public class ClickHouseQueryMain {
     String line;
 
     while ((line = reader.readLine()) != null) {
-      sb.append(line + "\n");
+      sb.append(line).append("\n");
     }
 
     return sb.toString();

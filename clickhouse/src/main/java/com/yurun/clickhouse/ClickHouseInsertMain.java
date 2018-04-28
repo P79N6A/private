@@ -25,11 +25,11 @@ public class ClickHouseInsertMain {
 
       Connection conn = DriverManager.getConnection(url);
 
-      String sql = "insert into ontime (Year, FlightDate, TailNum) values (?, ?, ?)";
+      String sql = "insert into ontime2_all (Year, FlightDate, TailNum) values (?, ?, ?)";
 
       PreparedStatement stmt = conn.prepareStatement(sql);
 
-      for (int index = 0; index < 10000; index++) {
+      for (int index = 1000; index < 1100; index++) {
         stmt.setInt(1, index);
         stmt.setDate(2, new Date(System.currentTimeMillis()));
         stmt.setString(3, String.valueOf(index % 10));
