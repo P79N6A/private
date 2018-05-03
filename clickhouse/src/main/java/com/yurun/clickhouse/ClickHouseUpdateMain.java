@@ -36,7 +36,7 @@ public class ClickHouseUpdateMain {
     try {
       String driverName = "ru.yandex.clickhouse.ClickHouseDriver";
 
-      String url = "jdbc:clickhouse://10.77.114.140:9123";
+      String url = "jdbc:clickhouse://d085126108.aliyun.dip.weibo.com:8123";
 
       Class.forName(driverName);
 

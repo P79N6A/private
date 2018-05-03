@@ -1,1 +1,1 @@
-select * from ontime2_all
+select * from ontime_all
