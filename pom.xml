@@ -15,6 +15,7 @@
     <module>common</module>
     <module>hadoop</module>
     <module>clickhouse</module>
+      <module>test</module>
   </modules>
 
   <properties>
