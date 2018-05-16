@@ -7,9 +7,9 @@ import java.util.Comparator;
 import org.apache.log4j.helpers.LogLog;
 
 /**
- * Created by yurun on 18/3/26.
+ * Enhanced DailyRollingFileAppender: support maxBackupIndex.
  *
- * Enhanced DailyRollingFileAppender: support maxBackupIndex
+ * @author yurun
  */
 public class EnhancedDailyRollingFileAppender extends DailyRollingFileAppender {
 

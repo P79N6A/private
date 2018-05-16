@@ -134,15 +134,17 @@ public class SignatureUtils {
 
     param.put("Action", action);
     param.put("DomainName", domainName);
-    param.put("LogDay", logDay);
+    //param.put("LogDay", logDay);
+    param.put("StartTime", "2018-04-26T15:00:00Z");
+    param.put("EndTime", "2018-04-26T16:00:00Z");
 
     param.put("Format", format);
     param.put("Version", version);
     param.put("AccessKeyId", accessKeyId);
     param.put("SignatureMethod", signatureMethod);
-    param.put("Timestamp", "2018-05-15T11:00:46Z");
+    param.put("Timestamp", "2018-05-16T10:48:00Z");
     param.put("SignatureVersion", signatureVersion);
-    param.put("SignatureNonce", "4");
+    param.put("SignatureNonce", "3333");
 
     try {
       String url = generate("GET", param, accessKeySecret);
