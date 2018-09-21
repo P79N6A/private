@@ -7,6 +7,7 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.spark.api.java.function.MapFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;
+import org.apache.spark.sql.ForeachWriter;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.RowFactory;
 import org.apache.spark.sql.SparkSession;
@@ -15,10 +16,13 @@ import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder;
 import org.apache.spark.sql.catalyst.encoders.RowEncoder;
 import org.apache.spark.sql.functions;
 import org.apache.spark.sql.streaming.StreamingQuery;
+import org.apache.spark.sql.streaming.StreamingQueryListener;
 import org.apache.spark.sql.streaming.Trigger;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Structured streaming example.
@@ -26,6 +30,20 @@ import org.apache.spark.sql.types.StructType;
  * @author yurun
  */
 public class StructuredStreamingExample {
+  private static final Logger LOGGER = LoggerFactory.getLogger(StructuredStreamingExample.class);
+
+  private static class QueryListener extends StreamingQueryListener {
+    @Override
+    public void onQueryStarted(QueryStartedEvent queryStartedEvent) {}
+
+    @Override
+    public void onQueryProgress(QueryProgressEvent queryProgressEvent) {
+      LOGGER.info(queryProgressEvent.progress().json());
+    }
+
+    @Override
+    public void onQueryTerminated(QueryTerminatedEvent queryTerminatedEvent) {}
+  }
 
   private static class TruncateWithMinutes implements UDF2<String, Integer, String> {
     private static final FastDateFormat DATE_FORMAT =
@@ -44,6 +62,25 @@ public class StructuredStreamingExample {
     }
   }
 
+  private static class SinkWriter extends ForeachWriter<Row> {
+    private long partitionId;
+    private long batchId;
+
+    @Override
+    public boolean open(long partitionId, long batchId) {
+      this.partitionId = partitionId;
+      this.batchId = batchId;
+
+      return true;
+    }
+
+    @Override
+    public void process(Row row) {}
+
+    @Override
+    public void close(Throwable throwable) {}
+  }
+
   /**
    * Main.
    *
@@ -59,6 +96,8 @@ public class StructuredStreamingExample {
     String topic = "yurun_test";
 
     SparkSession session = SparkSession.builder().master(master).appName(appName).getOrCreate();
+
+    session.streams().addListener(new QueryListener());
 
     session
         .udf()
@@ -103,17 +142,16 @@ public class StructuredStreamingExample {
 
     Dataset<Row> selectDf =
         session.sql(
-        "select current_timestamp() as timestamp, "
-            + "truncate_with_minutes(logtime, 5) as logtime, "
-            + "domain, cast(hit as int) as hit "
-            + "from source_table");
+            "select current_timestamp() as timestamp, "
+                + "truncate_with_minutes(logtime, 5) as logtime, "
+                + "domain, cast(hit as int) as hit "
+                + "from source_table");
 
     Dataset<Row> resultDf =
         selectDf
-            .withWatermark("timestamp", "5 seconds")
+            .withWatermark("timestamp", "1 minutes")
             .groupBy(
-                org.apache.spark.sql.functions.window(
-                    functions.col("timestamp"), "5 seconds", "5 seconds"),
+                functions.window(functions.col("timestamp"), "1 minutes"),
                 functions.col("logtime"),
                 functions.col("domain"))
             .sum("hit");
@@ -121,9 +159,10 @@ public class StructuredStreamingExample {
     StreamingQuery query =
         resultDf
             .writeStream()
-            .outputMode("append")
+            .queryName("query")
             .format("console")
-            .trigger(Trigger.ProcessingTime("1 seconds"))
+            .outputMode("update")
+            .trigger(Trigger.ProcessingTime("10 seconds"))
             .start();
 
     query.awaitTermination();
