@@ -28,6 +28,7 @@
         <commons-collections>3.2.1</commons-collections>
         <kafka.version>0.10.2.1</kafka.version>
         <spark.version>2.3.1</spark.version>
+        <zookeeper.version>3.4.10</zookeeper.version>
     </properties>
 
     <dependencyManagement>
@@ -106,6 +107,12 @@
                 <groupId>org.apache.spark</groupId>
                 <artifactId>spark-sql-kafka-0-10_2.11</artifactId>
                 <version>${spark.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

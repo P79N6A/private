@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
-import org.apache.commons.lang.StringUtils;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -18,9 +17,9 @@ import org.slf4j.LoggerFactory;
  *
  * <p>Kafka Producer Example
  */
-public class KafkaProducerExample {
+public class HubbleKafkaProducer {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProducerExample.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(HubbleKafkaProducer.class);
 
   /**
    * Main.
@@ -30,7 +29,7 @@ public class KafkaProducerExample {
   public static void main(String[] args) {
     String kafkaServers = "10.210.77.15:9092";
 
-    String topic = "hubble_source";
+    String topic = "yurun_test";
 
     Properties props = new Properties();
 
@@ -45,40 +44,33 @@ public class KafkaProducerExample {
 
     Producer<String, String> producer = new KafkaProducer<String, String>(props);
 
-    SimpleDateFormat logtimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    List<String> domains = new ArrayList<String>();
 
-    List<String> types = new ArrayList<String>();
+    domains.add("domain0");
+    domains.add("domain1");
+    domains.add("domain2");
+    domains.add("domain3");
+    domains.add("domain4");
+    domains.add("domain5");
+    domains.add("domain6");
+    domains.add("domain7");
+    domains.add("domain8");
+    domains.add("domain9");
 
-    types.add("娱乐");
-    types.add("体育");
-    types.add("教育");
-    types.add("财经");
-    types.add("社会");
-    types.add("其它");
-
-    List<String> catons = new ArrayList<String>();
-
-    catons.add("true");
-    catons.add("false");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     Random random = new Random();
 
     while (true) {
-      List<String> words = new ArrayList<String>();
-
-      words.add(logtimeFormat.format(new Date()));
-      words.add("1");
-      words.add(types.get(random.nextInt(types.size())));
-      words.add(catons.get(random.nextInt(catons.size())));
-
-      String value = StringUtils.join(words, "\t");
+      String value =
+          sdf.format(new Date()) + " " + domains.get(random.nextInt(domains.size())) + " 1";
 
       producer.send(new ProducerRecord<String, String>(topic, value));
 
       LOGGER.info("producer send: {}", value);
 
       try {
-        Thread.sleep((int) (Math.random() * 100));
+        Thread.sleep((int)(Math.random() * 100));
       } catch (InterruptedException e) {
         break;
       }

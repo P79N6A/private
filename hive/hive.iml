@@ -71,8 +71,8 @@
     <orderEntry type="library" name="Maven: org.tukaani:xz:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.thrift:libfb303:0.9.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.ivy:ivy:2.4.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.zookeeper:zookeeper:3.4.6" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty:3.7.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.zookeeper:zookeeper:3.4.10" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty:3.10.5.Final" level="project" />
     <orderEntry type="library" name="Maven: org.apache.curator:curator-framework:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.curator:curator-client:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.1.6" level="project" />
