@@ -29,7 +29,7 @@ public class HubbleKafkaProducer {
   public static void main(String[] args) {
     String kafkaServers = "10.210.77.15:9092";
 
-    String topic = "yurun_test";
+    String topic = "hubble_source";
 
     Properties props = new Properties();
 

@@ -1,0 +1,75 @@
+CREATE TABLE IF NOT EXISTS yurun_test.spark_table_test (
+	country STRING,
+	province STRING,
+	isp STRING,
+	phone STRING,
+	system STRING,
+	network STRING,
+	fdate TIMESTAMP,
+	file_size BIGINT,
+	compress_time DOUBLE,
+	network_time DOUBLE
+)
+PARTITIONED BY (
+	day STRING,
+	hour STRING
+)
+STORED AS ORC;
+CREATE TABLE IF NOT EXISTS yurun_test.spark_table_test2 (
+	country STRING,
+	province STRING,
+	isp STRING,
+	phone STRING,
+	system STRING,
+	network STRING,
+	fdate TIMESTAMP,
+	file_size BIGINT,
+	compress_time DOUBLE,
+	network_time DOUBLE
+)
+PARTITIONED BY (
+	day STRING,
+	hour STRING
+)
+STORED AS ORC;
+INSERT INTO TABLE
+    yurun_test.spark_table_test
+PARTITION
+    (
+        day = '2018-11-19',
+        hour = '16'
+    )
+SELECT
+    country,
+    province,
+    isp,
+    phone,
+    system,
+    network,
+    from_unixtime(unix_timestamp(fdate), 'yyyy-MM-dd HH:mm:ss') as fdate,
+    file_size,
+    compress_time,
+    network_time
+FROM
+    yurun_test.pinot_table;
+INSERT INTO TABLE
+    yurun_test.spark_table_test2
+PARTITION
+    (
+        day = '2018-11-19',
+        hour = '16'
+    )
+SELECT
+    country,
+    province,
+    functions.ip_to_location('10.13.4.44')['isp'] as isp,
+    phone,
+    system,
+    network,
+    from_unixtime(unix_timestamp(fdate), 'yyyy-MM-dd HH:mm:ss') as fdate,
+    file_size,
+    compress_time,
+    network_time
+FROM
+    yurun_test.pinot_table;
+drop table yurun_test.spark_table_test;

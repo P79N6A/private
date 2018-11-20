@@ -19,7 +19,7 @@ public class SparkSqlFunctions {
   public static void main(String[] args) {
     String master = "local[10]";
 
-    String appName = "StructuredStreamingExample";
+    String appName = "SparkSqlFunctions";
 
     SparkSession session = SparkSession.builder().master(master).appName(appName).getOrCreate();
 
